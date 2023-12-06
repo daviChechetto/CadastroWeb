@@ -1,0 +1,24 @@
+const fs = require('fs');
+const initSqlJs = require('sql-wasm.js');
+const filebuffer = fs.readFileSync('bancoAgro');
+
+
+
+async function carregarBanco() {
+    try {
+        initSqlJs().then(function(SQL){
+            // Load the db
+            const db = new SQL.Database(filebuffer);
+        });
+
+        // Faz um SELECT da tabela usuario  de tudo o q tem dentro
+        const result = db.exec("SELECT * FROM usuario");
+        console.log(result[0].values);
+        return result[0].values;
+
+    } catch (error) {
+        console.error("Erro durante a inicialização do banco de dados:", error);
+        return [];
+    }
+}
+carregarBanco()
